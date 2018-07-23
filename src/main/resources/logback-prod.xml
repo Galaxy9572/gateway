@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="false" scan="true" scanPeriod="10 seconds">
+
+    <!--定义User_data日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="API_INFO_LOG_HOME" value="/data/logs/user-data"/>
+    <!--定义App日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="APP_LOG_HOME" value="/data/logs/app"/>
+
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- API数据日志，按照每天生成日志文件 -->
+    <appender name="ApiInfoCollectLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${API_INFO_LOG_HOME}/ApiInfo-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%msg|%d{yyyy-MM-dd HH:mm:ss.SSS}%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- App日志，按照每天生成日志文件 -->
+    <appender name="AppLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${APP_LOG_HOME}/app-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%msg|%d{yyyy-MM-dd HH:mm:ss.SSS}%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- API数据日志 -->
+    <logger name="ApiInfoCollectLogger" additivity="false">
+        <appender-ref ref="ApiInfoCollectLogger"/>
+    </logger>
+
+    <!-- 控制台、App日志输出 -->
+    <root level="error">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="AppLogger"/>
+    </root>
+
+</configuration>
