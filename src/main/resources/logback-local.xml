@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration debug="false" scan="true" scanPeriod="10 seconds">
 
-    <!--定义User_data日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <!--定义API数据日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
     <property name="API_INFO_LOG_HOME" value="/data/logs/api-info"/>
     <!--定义App日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
     <property name="APP_LOG_HOME" value="/data/logs/app"/>

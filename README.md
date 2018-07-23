@@ -18,7 +18,7 @@ application.properties分为三个环境的配置文件(local、test、prod，�
 
 该配置中有几个配置比较重要
     
-    zuul的配置，该配置代表本服务会拦截/api、/data、/quote开头的所有API请求，sensitive-headers设置为null就不会过滤request和response中的header了
+    zuul的配置，该配置代表本服务会拦截/api开头的所有API请求，sensitive-headers设置为null就不会过滤request和response中的header了
     
    - zuul.routes.api.path=/api/**
    - zuul.sensitive-headers=
